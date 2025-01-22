@@ -8,6 +8,8 @@ import (
 	"github.com/CrossStack-Q/Go-Pulse/backend/internal/store"
 )
 
+const version = "0.0.1"
+
 func main() {
 	cfg := config{
 		addr: env.GetString("ADDR", ":8900"),
@@ -17,6 +19,7 @@ func main() {
 			maxIdleConn:  int64(env.GetInt("Max_Idle_Conn", 30)),
 			maxIdleTime:  "3m",
 		},
+		env: env.GetString("ENV", "development"),
 	}
 
 	db, err := db.New(
