@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"database/sql"
+	"time"
 )
 
 type Comment struct {
@@ -25,6 +26,9 @@ func (s *CommentStore) GetByPostID(ctx context.Context, postID int64) ([]Comment
 		WHERE c.post_id = $1
 		ORDER BY c.created_at DESC;
 	`
+	ctx, cancel := context.WithTimeout(ctx, time.Second*3)
+
+	defer cancel()
 
 	rows, err := s.db.QueryContext(ctx, query, postID)
 
